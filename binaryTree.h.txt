@@ -1,0 +1,56 @@
+#pragma once
+#include<iostream>
+#include<conio.h>
+using namespace std;
+
+class List
+{
+public:
+	string Row_ID, Order_ID, Order_Date, Customer_ID, Customer_Name, Segment, Country, City;
+
+};
+struct BinTree
+{
+	List *list;
+	BinTree *left;
+	BinTree *right;
+	BinTree()
+	{
+		list = new List();
+		this->left = NULL;
+		this->right = NULL;
+	}
+};
+BinTree* createBNode(int data)
+{
+	return new BinTree();
+}
+BinTree *tobj = NULL;
+void level_order_insert(BinTree* root, int* arr, int start, int size)
+{
+	if (root == NULL && start<size) {
+		tobj = createBNode(arr[start]);
+		cout << " created root node of tree=> " << start << ":" << arr[start] << endl;
+		root = tobj;
+	}
+	int left = 2 * start + 1;
+	int right = 2 * start + 2;
+	if (left >= size && right >= size)
+		return;
+	if (root->left == NULL && root->right == NULL) {
+		if (left < size)
+		{
+			root->left = createBNode(arr[left]);
+			cout << " Left child of " << start << ":" << arr[start] << " is " << left << ":" << arr[left] << endl;
+		}
+		if (right < size)
+		{
+			root->right = createBNode(arr[right]);
+			cout << " Right child of " << start << ":" << arr[start] << " is " << right << ":" << arr[right] << endl;
+		}
+	}
+	//doing a recursive call with updated start of array and node
+	level_order_insert(root->left, arr, left, size);
+	level_order_insert(root->right, arr, right, size);
+}
+
